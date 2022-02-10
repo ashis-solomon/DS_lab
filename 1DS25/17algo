@@ -1,0 +1,145 @@
+POLYNOMAIL MULTIPLICATION
+                                       
+
+ALGORITHMN
+
+Step1: Start
+
+Step2: Declare structure
+struct node 
+{ 
+ int coef; 
+ int expo; 
+ struct node *link; 
+ }; 
+
+
+Step3: Enter the polynomial 1 details
+       call procedure
+       create()
+        and store it in poly1 variable
+        
+
+Step4: Enter the polynomial 2 details
+       call procedure
+       create()
+       and store it in poly2 variable        
+        
+
+Step5: call procedure
+       polynomial_multiplication(poly1,poly2)
+       and store it in poly3 variable 
+
+Step6: Print Product of the polynomials
+       call procedure
+       display(result)
+       
+Step 7: Stop
+
+begin procedure display()
+display(struct node *poly) 
+ { 
+ while(poly!=NULL) 
+ {  
+  
+ if(poly->expo==0)  
+ printf("%d",poly->coef); 
+ else if(poly->expo==1 && poly->coef==1) 
+ printf("x"); 
+ else if(poly->expo==1) 
+ printf("%dx",poly->coef); 
+ else if(poly->coef==1) 
+ printf("x^%d",poly->expo); 
+  
+  
+ else printf("%dx^%d",poly->coef,poly->expo); 
+ poly=poly->link; 
+ if(poly!=NULL && poly->coef>=0) 
+ { 
+ printf("+"); 
+ } 
+  
+ } 
+  
+ } 
+     
+  
+begin procedure struct node *polynomial_multiplication() 
+struct node *polynomial_multiplication(struct node *poly1,struct node *poly2) 
+ { 
+ struct node *poly3,*p2; 
+ poly3=(struct node *)malloc(sizeof(struct node)); 
+  
+ while(poly1!=NULL) 
+ { 
+ for(p2=poly2;p2!=NULL;p2=p2->link) 
+ { 
+ poly3=insert_sort(poly3,(poly1->coef)*(p2->coef),poly1->expo+p2->expo); 
+ } 
+ poly1=poly1->link; 
+ } 
+ return poly3; 
+ } 
+
+begin procedure struct node *insert_sort(struct node *start,int coef,int expo)
+struct node *insert_sort(struct node *start,int coef,int expo) 
+ { 
+ struct node *temp,*p; 
+ temp=(struct node *)malloc(sizeof(struct node )); 
+ temp->coef=coef; 
+ temp->expo=expo; 
+  
+ if(start==NULL || expo>=start->expo) 
+ { 
+ if(start!=NULL && expo==start->expo) 
+ { 
+
+  
+ start->coef=start->coef+coef; 
+ return start; 
+ } 
+
+ temp->link=start; 
+ start=temp; 
+ return start; 
+ } 
+ else 
+ { 
+ p=start; 
+  
+ while(p->link!=NULL && p->link->expo>=expo) 
+ p=p->link; 
+  
+ if(p->expo==expo) 
+ { 
+ p->coef=coef+p->coef; 
+ return start; 
+ }  
+  
+ temp->link=p->link; 
+ p->link=temp; 
+ return start; 
+ } 
+ } 
+ 
+ 
+ begin procedure struct node * create() 
+ struct node * create() 
+ { 
+ struct node *poly=NULL; 
+ int ino; 
+ int expo; 
+ int coef; 
+ printf("\nHow many terms do you want to insert in the polynomial \n"); 
+ scanf("%d",&ino); 
+  
+ for(int i=1;i<=ino;i++) 
+ { 
+ printf("\nEnter Coefficient And Exponent for term\n\n"); 
+ scanf("%d%d",&coef,&expo); 
+ poly=insert_sort(poly,coef,expo); 
+ display(poly);
+ } 
+ return poly; 
+ } 
+

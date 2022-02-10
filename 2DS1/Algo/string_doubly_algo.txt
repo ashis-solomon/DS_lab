@@ -1,0 +1,102 @@
+ALGORITHM
+
+Doubly Linked Palindrome Checking
+
+declare new typedef
+struct Node{
+	int data;
+	struct Node* prev;
+	struct Node* next;
+} listNode;
+
+create two node's beg and end assign it NULL
+
+
+display()
+procedure : display contents of the doublyll
+parameters : nil
+
+1.Start
+2.Create node temp and assign it to beg
+3.While temp != NULL
+	3.1 Print temp->data
+	3.2 temp = temp->next;
+4.If beg == end 
+	Print Empty !!
+5.End
+
+
+insertElement()
+procedure : insert the element to the doublyll
+parameters : char data
+
+1.Start
+2.Declare int pos = -1;
+3.Create new node (listNode) n and assign n->data = data and links as NULL
+4.Check if beg==NULL and end==NULL
+	4.1 if true beg = end = n
+	4.2 Else if (pos == 1)
+		beg->prev = n
+		n->next = beg
+		beg = n
+	4.3 Else
+		4.3.1
+		create temp node and assign it to beg
+		declare int count = 0;
+		Start While temp!= NULL
+			count++;
+			if count == pos -> break
+			temp = temp->next
+	
+		4.3.2
+		if temp != NULL
+			n->prev = temp->prev;
+			temp->prev->next = n;
+			n->next = temp;
+			temp->prev = n;
+		else 
+			end->next = n;
+			n->prev = end;
+			end = n;
+		
+5.End
+
+
+isPalindrome()
+procedure : Check if the string doublyll is a palindrome or not
+parameters : listNode *start
+return type : int
+
+1.Start
+2.Check if start == NULL // null string check
+	if true return 1;
+3.Create new listNode end and assign it to start
+4.Start While end->next != NULL
+	end = end->next; //traverse to end
+5.End While
+6.Start While start!=end
+	6.1 Check if start->data != end->data
+		if true return 0;
+	6.2 start = start->next;
+	6.3 end = end->prev;
+7.End While
+8.Return 1;
+9.End
+
+
+main()
+
+1.Start
+2.Declare char array str[100]
+3.Accept the string from the user
+4.int i=0,len=0;
+5.Find the length of the str by 
+	for(len=0;str[len]!='\0';len++);
+6.While i<len -> Call insertElement(str[i]); and increment i;
+7.Call display();
+8.Declare int check = isPalindrome(beg);
+9.If check == 1 -> Print String is a Palindrome
+10. Else if check == 0 -> Print String is Not a Palindrome
+11.End
+
+	

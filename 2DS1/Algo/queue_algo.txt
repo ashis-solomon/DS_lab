@@ -1,0 +1,79 @@
+ALGORITHM
+
+Queue operations
+
+Display Menu
+1. Push
+2. Pop
+3. Display
+4. exit
+
+declare new typedef
+struct Node{
+	int data;
+	struct Node* link;
+} node;
+
+create two node's front and rear assign it NULL
+
+
+display_queue()
+procedure : display contents of the queue
+parameters : nil
+
+1.Start
+2.Create node temp and assign it to front
+3.Check if temp == NULL and if true
+	Print Queue is Empty and return;
+4.Start While temp!= NULL
+	print temp->data 
+	temp = temp->link;
+5.End
+
+
+push()
+procedure : push data to be inserted 
+parameters : nil
+
+1.Start
+2.Declare data (int) and accept it from the user
+3.Create node ptr and assign ptr->data = data accepted
+4.Check if front == NULL if true
+	front = ptr;
+	reat = ptr;
+4.1 Else
+	rear->link = ptr;
+	rear = ptr;
+5.Call display_queue();
+6.End
+
+
+pop()
+procedure : pop the elements from the queue
+parameters : nil
+
+1.Start
+2.Check if front == NULL if true 
+	Print Queue is Empty !! and return;
+2.1. Else 
+	Create node temp and assign it to front
+	Print the popped element front->data
+	front = front->link;
+	free(temp);
+3.Call display_queue();
+4.End
+
+
+
+main()
+
+1.Declare int choice = 0;
+2.Print the MENU 
+3.Start While choice != 4
+	3.1 switch(choice)
+		if case == 1 -> push();
+		if case == 2 -> pop();
+		if case == 3 -> display_queue();
+		if case == 4 -> return;
+	3.2 default Print Invalid Choice
+4.End

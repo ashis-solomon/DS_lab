@@ -1,0 +1,182 @@
+POLYNOMAIL MULTIPLICATION
+                                       
+
+ALGORITHMN
+
+Step1: Start
+
+Step2: Declare structure
+          typedef struct Node {
+	int coeff;
+	int pow;
+	struct Node* link;
+} poly;
+
+poly* heada = NULL;
+poly* headb = NULL;
+poly* result = NULL;
+
+// give function prototype void reduce_poly(); 
+
+Step3: Enter the polynomial 1 details
+       call procedure
+       In_Exp
+        and store it in heada variable
+        
+
+Step4: Enter the polynomial 2 details
+       call procedure
+       In_Exp
+        and store it in headb variable        
+        
+
+Step5: call procedure
+       Product(heada, headb)
+
+Step6: Print Product of the polynomials
+       call procedure
+       display_result(result)
+       
+Step 7: Stop
+
+begin procedure display_result()
+display_result(poly* exp) {
+	poly* temp = exp;
+	printf("\n");
+	while(temp!=NULL) {
+		if(temp == exp)
+			printf("%d(x^%d)", temp->coeff, temp->pow);
+		else
+			printf("%+d(x^%d)", temp->coeff, temp->pow);
+			
+		temp = temp->link;
+	}
+	printf("\n");
+}
+     
+  
+begin procedure poly* In_Exp()
+In_Exp() {
+	int num;
+	poly* temp;
+	poly* first = NULL;
+	printf("Enter Number of Terms : ");
+	scanf("%d", &num);
+	printf("\n");
+	for(int i=1; i<=num; i++) {
+		printf("\nterm %d\n", i);
+		poly* node = (poly*)malloc(sizeof(poly));
+		printf("coefficient : ");
+		scanf("%d", &node->coeff);
+		printf("power : ");
+		scanf("%d", &node->pow);
+		node->link = NULL;
+		if(first == NULL) {
+			temp = first = node;
+		}
+		else {
+			temp->link = node;
+			temp = node;
+		}
+	}
+	
+	Sort(first);
+	
+	display_result(first);
+	
+	printf("\n");
+	
+	return first;
+}
+
+begin procedure reduce_poly()
+reduce_poly() {
+	poly* term = result;
+	poly* prev = result;
+	
+	while((term != NULL) && (term->link != NULL)) {
+		if(term->pow == term->link->pow) {
+			int sum = term->coeff + term->link->coeff;
+			if(sum) {
+				term->coeff = sum;
+				term->link = term->link->link;
+			}
+			else {
+				if(term == prev) {
+					result = term->link->link;
+					term = prev = result;
+				}
+				else {
+					prev->link = term->link->link;
+					term = prev->link;
+				}
+			}
+			
+			continue;
+		}
+		
+		prev = term;
+		term = term->link;
+	}
+}
+
+begin procedure Sort()
+Sort(poly* exp) {
+	poly* i = exp;
+	int swapped = 0;
+	
+	if(exp == NULL)
+		return;
+	
+	do {
+		i = exp;
+		swapped = 0;
+		
+		while(i->link != NULL) {
+			if(i->pow < i->link->pow) {
+				int temppow = i->pow;
+				int tempcoeff = i->coeff;
+				i->pow = i->link->pow;
+				i->coeff = i->link->coeff;
+				i->link->pow = temppow;
+				i->link->coeff = tempcoeff;
+				swapped = 1;
+			}
+			i = i->link;
+		}
+		
+	}while(swapped);
+}
+
+begin procedure Product()
+Product(poly* poly1, poly* poly2) {
+	poly* temp;
+	poly* a = poly1;
+	poly* b = poly2;
+	
+	while(a != NULL) {
+		b = poly2;
+		while(b != NULL) {
+			int c = a->coeff * b->coeff;
+			int p = a->pow + b->pow;
+			
+			poly* node = (poly*)malloc(sizeof(poly));
+			node->coeff = c;
+			node->pow = p;
+			node->link = NULL;
+			
+			if(result == NULL)
+				result = temp = node;
+			else {
+				temp->link = node;
+				temp = node;
+			}
+			
+			b = b->link;
+		}
+		a = a->link;
+	}
+	
+	Sort(result);
+	reduce_poly();
+}
